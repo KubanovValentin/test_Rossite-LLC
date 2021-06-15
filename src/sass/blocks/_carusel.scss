@@ -1,0 +1,315 @@
+
+%animation-default {
+    opacity: 1 !important;
+    z-index: 3;
+}
+
+@mixin carousel($items, $animation: 'default') {
+    .carousel {
+        height: 681px;
+        position: relative;
+        overflow: hidden;
+        background-image: url('../img/general/bgd.png'),  url('../img/general/bgd.png'), url('../img/general/bgd.png');
+        background-size: cover, cover, cover;
+        background-position: left center, right center, center;
+        background-repeat: no-repeat, no-repeat, no-repeat;
+        
+
+        >input[type="radio"] {
+            position: absolute;
+            left: 0;
+            opacity: 0;
+            top: 0;
+
+            &:checked {
+
+                ~.carousel__items .carousel__item,
+                ~.carousel__prev>label,
+                ~.carousel__next>label {
+                    opacity: 0;
+                }
+            }
+
+            @for $i from 1 through $items {
+                &:nth-child(#{$i}) {
+                    &:checked {
+                        ~.carousel__items .carousel__item {
+                            @if $animation=='default' {
+                                &:nth-child(#{$i}) {
+                                    opacity: 1;
+                                }
+                            }
+                        }
+
+                        ~.carousel__prev {
+                            >label {
+                                @if $i==1 {
+                                    &:nth-child(#{$items}) {
+                                        @extend %animation-default;
+                                    }
+                                }
+
+                                @else if $i==$items {
+                                    &:nth-child(#{$items - 1}) {
+                                        @extend %animation-default;
+                                    }
+                                }
+
+                                @else {
+                                    &:nth-child(#{$i - 1}) {
+                                        @extend %animation-default;
+                                    }
+                                }
+                            }
+                        }
+
+                        ~.carousel__next {
+                            >label {
+                                @if $i==$items {
+                                    &:nth-child(1) {
+                                        @extend %animation-default;
+                                    }
+                                }
+
+                                @else {
+                                    &:nth-child(#{$i + 1}) {
+                                        @extend %animation-default;
+                                    }
+                                }
+                            }
+                        }
+
+                        ~.carousel__nav {
+                            >label {
+                                &:nth-child(#{$i}) {
+                                    background: #f46b0f;
+                                    width: 30px;
+                                    height: 1px;
+                                    cursor: default;
+                                    border: none;
+                                    border-radius: 1px;
+                                    pointer-events: none;
+
+                                    span {
+                                        display: none;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        &__items {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+            width: 100%;
+            height: 670px;
+            .row {
+                height: 681px;
+            }
+            .col-md-4 {
+                display: flex;
+                justify-content: flex-end;
+                align-items: flex-end;
+            }
+            .col-md-5 {
+                padding-top: 179px;
+                display: block;
+
+            }
+        }
+        &__item {
+            position: absolute;
+            transition: opacity 2s;
+            -webkit-transition: opacity 2s;
+            
+        }
+        
+        &__prev, &__next {                        
+            >label {
+                border: none;
+                border-bottom:2px solid #fff;
+                cursor: pointer;
+                display: block;
+                width: 40px;
+                height: 40px;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                -webkit-transform: translateY(-50%);
+                transition: all .3s ease;
+                -webkit-transition: all .3s ease;
+                opacity: 0;
+                z-index: 2;
+
+                &:hover,
+                &:focus {
+                    opacity: .5 !important;
+                }
+
+                &:before,
+                &:after {
+                    content: "";
+                    position: absolute;
+                    width: inherit;
+                    height: inherit;
+                    border-bottom:2px solid #fff;
+                }
+
+                &:before {
+                    width: 62%;
+                    height: 62%;
+                    top: 20%;
+                }
+            }
+        }
+
+        &__prev {
+            >label {
+                left: 2%;
+
+                &:before {
+                    left: 10%;
+                    top: 70%;
+                    transform: rotate(135deg);
+                    -webkit-transform: rotate(135deg);
+                }
+            }
+        }
+
+        &__next {
+            >label {
+                right: 2%;
+
+                &:before {
+                    left: 30%;
+                    top: 74%;
+                    transform: rotate(315deg);
+                    -webkit-transform: rotate(315deg);
+                }
+            }
+        }
+
+        &__nav {
+            position: absolute;
+            bottom: 3%;
+            left: 0;
+            text-align: center;
+            width: 100%;
+            z-index: 3;
+
+            >label {
+                border: none;
+                display: inline-block;
+                border-radius: 50%;
+                cursor: pointer;
+                margin: 0 .125%;
+                width: 20px;
+                height: 20px;
+                color: #ccc;
+            }
+        }
+        &__info {
+            margin-top: 120px;
+            color: #b7b9be;
+            font-family: Roboto;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: normal;
+            text-transform: uppercase;
+            font-style: normal;
+            letter-spacing: 1.2px;
+        }
+        &__title {
+            color: #ffffff;
+            font-family: "Roboto Medium";
+            font-size: 45px;
+            font-weight: 500;
+            letter-spacing: 1.13px;
+            line-height: normal;
+        }
+        &__subtitle {
+            color: #ffffff;
+            font-family: "Roboto - Regular";    
+            font-size: 19px;
+            font-weight: 400;
+        }
+        &__btn {
+            position: absolute;
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+            width: 500px;
+            top: 70%;
+            left: 51%;
+            z-index: 4;
+            a {
+                display: block;
+                color: #ffffff;
+                font-family: Roboto;
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 60px;
+                margin: 0 auto;
+                text-decoration: none;
+                
+                
+            }
+        }
+        &__btn-catalog {
+            width: 220px;
+            height: 62px;
+            border: 1px solid #ffffff;
+            opacity: 0.4;
+            color: #ffffff;
+            background-color:black;
+            &:hover {
+                text-decoration: none;
+                border: 1px solid #ff7000;
+            }
+        }
+        &__btn-bell {
+            width: 220px;
+            height: 62px;
+            border: 1px solid #ffffff;
+            opacity: 0.4;
+            background-color:black;
+            &:hover {
+                text-decoration: none;
+                border: 1px solid #ff7000;
+            }
+        }
+        &__img {
+            margin-top: 130px;
+            margin-left: 100px;
+            &_average {
+                margin-top: 0;
+                margin-left: 160px;
+                margin-top: 110px;
+            }
+            &_last {
+                margin-left: 220px;
+                margin-top: 100px;
+            }
+        }
+    }
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+body {
+    background: #fcfcfc;
+    margin: 0;
+}
+
+
+@include carousel(3);

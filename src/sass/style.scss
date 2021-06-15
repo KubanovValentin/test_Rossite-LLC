@@ -1,0 +1,26 @@
+
+* {
+    font-family: 'Roboto', sans-serif;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    
+}
+
+a {
+    cursor: pointer;
+}
+
+
+
+@import './blocks/menu';
+@import './blocks/slider';
+@import './blocks/form';
+@import './blocks/header';
+@import './blocks/carusel';
+@import './blocks/catalog';
+@import './blocks/regist';
+@import './blocks/modal';
+@import './blocks/hamburger';
+@import './blocks/media';
+
